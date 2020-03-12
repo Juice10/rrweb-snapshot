@@ -225,9 +225,8 @@ function serializeNode(
           ''
         ).trim().length
       ) {
-        const cssText = getCssRulesString(
-          (n as HTMLStyleElement).sheet as CSSStyleSheet,
-        );
+        const cssText = getCssRulesString((n as HTMLStyleElement)
+          .sheet as CSSStyleSheet);
         if (cssText) {
           attributes._cssText = absoluteToStylesheet(cssText, location.href);
         }
@@ -334,7 +333,7 @@ export function serializeNodeWithId(
   }
   let id;
   // Try to reuse the previous id
-  if ('__sn' in n) {
+  if ('__sn' in n && n.__sn) {
     id = n.__sn.id;
   } else {
     id = genId();
