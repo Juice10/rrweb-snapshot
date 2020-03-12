@@ -6,11 +6,11 @@
     "test": "cross-env TS_NODE_CACHE=false TS_NODE_FILES=true mocha -r ts-node/register test/**/*.ts",
     "bundle": "rollup --config",
     "typings": "tsc -d --declarationDir typings",
-    "prepare": "npm run bundle"
+    "install": "npm run bundle"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rrweb-io/rrweb-snapshot.git"
+    "url": "git+https://github.com/Juice10/rrweb-snapshot.git"
   },
   "keywords": [
     "rrweb",
