@@ -5,7 +5,8 @@
   "scripts": {
     "test": "cross-env TS_NODE_CACHE=false TS_NODE_FILES=true mocha -r ts-node/register test/**/*.ts",
     "bundle": "rollup --config",
-    "typings": "tsc -d --declarationDir typings"
+    "typings": "tsc -d --declarationDir typings",
+    "prepare": "npm run bundle"
   },
   "repository": {
     "type": "git",
