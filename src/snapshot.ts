@@ -67,7 +67,7 @@ function extractOrigin(url: string): string {
 
 const URL_IN_CSS_REF = /url\((?:'([^']*)'|"([^"]*)"|([^)]*))\)/gm;
 const RELATIVE_PATH = /^(?!www\.|(?:http|ftp)s?:\/\/|[A-Za-z]:\\|\/\/).*/;
-const DATA_URI = /^(data:)([\w\/\+\-]+);(charset=[\w-]+|base64).*,(.*)/i;
+const DATA_URI = /^(data:)([\w\/\+\-]+);(charset=[\w-]+|base64|utf8).*,(.*)/i;
 export function absoluteToStylesheet(
   cssText: string | null,
   href: string,
