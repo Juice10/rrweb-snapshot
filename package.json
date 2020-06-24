@@ -1,9 +1,10 @@
 {
   "name": "@juice10/rrweb-snapshot",
-  "version": "0.7.30",
+  "version": "0.7.31",
   "description": "rrweb's component to take a snapshot of DOM, aka DOM serializer",
   "scripts": {
     "test": "cross-env TS_NODE_CACHE=false TS_NODE_FILES=true mocha -r ts-node/register test/**/*.ts",
+    "dev": "rollup -c -w",
     "bundle": "rollup --config",
     "typings": "tsc -d --declarationDir typings"
   },
