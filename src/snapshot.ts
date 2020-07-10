@@ -206,7 +206,9 @@ function serializeNode(
         });
 
         let rulesInaccessible = false;
-        try { stylesheet?.rules && stylesheet?.cssRules } catch {
+        try {
+          (stylesheet as CSSStyleSheet)?.rules && (stylesheet as CSSStyleSheet)?.cssRules
+        } catch {
           rulesInaccessible = true;
         }
 
