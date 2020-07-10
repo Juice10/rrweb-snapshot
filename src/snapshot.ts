@@ -205,7 +205,13 @@ function serializeNode(
           return s.href === (n as HTMLLinkElement).href;
         });
 
-        if (stylesheet && (n as HTMLLinkElement).getAttribute('crossorigin') === null) {
+        let rulesInaccessible = false;
+        try { stylesheet?.rules && stylesheet?.cssRules } catch {
+          rulesInaccessible = true;
+        }
+
+        if (stylesheet && rulesInaccessible &&
+          (n as HTMLLinkElement).getAttribute('crossorigin') === null) {
           // re-fetch stylesheet with rules accessible
           const clone = (n as HTMLLinkElement).cloneNode();
           (clone as HTMLLinkElement).setAttribute('crossorigin', '');
