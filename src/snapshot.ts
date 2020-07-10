@@ -204,6 +204,16 @@ function serializeNode(
         const stylesheet = Array.from(doc.styleSheets).find(s => {
           return s.href === (n as HTMLLinkElement).href;
         });
+
+        if (stylesheet && (n as HTMLLinkElement).getAttribute('crossorigin') === null) {
+          // re-fetch stylesheet with rules accessible
+          const clone = (n as HTMLLinkElement).cloneNode();
+          (clone as HTMLLinkElement).setAttribute('crossorigin', '');
+          setTimeout(() => {
+            (n as HTMLLinkElement).replaceWith(clone);
+          }, 0);
+        }
+
         const cssText = getCssRulesString(stylesheet as CSSStyleSheet);
         if (cssText) {
           delete attributes.rel;
