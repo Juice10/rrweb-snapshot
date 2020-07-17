@@ -48,7 +48,7 @@ export declare type tagMap = {
     [key: string]: string;
 };
 export interface INode extends Node {
-    __sn?: serializedNodeWithId;
+    __sn: serializedNodeWithId;
 }
 export declare type idNodeMap = {
     [key: number]: INode;
