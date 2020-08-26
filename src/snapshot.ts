@@ -9,7 +9,7 @@ import {
 } from './types';
 
 let _id = 1;
-const symbolAndNumberRegex = RegExp('[^a-z1-6-]');
+const tagNameRegex = RegExp('[^a-z1-6-_]');
 
 function genId(): number {
   return _id++;
@@ -18,7 +18,7 @@ function genId(): number {
 function getValidTagName(tagName: string): string {
   const processedTagName = tagName.toLowerCase().trim();
 
-  if (symbolAndNumberRegex.test(processedTagName)) {
+  if (tagNameRegex.test(processedTagName)) {
     // if the tag name is odd and we cannot extract
     // anything from the string, then we return a
     // generic div
@@ -167,6 +167,7 @@ function serializeNode(
   blockClass: string | RegExp,
   inlineStylesheet: boolean,
   maskInputOptions: MaskInputOptions = {},
+  recordCanvas: boolean,
 ): serializedNode | false {
   switch (n.nodeType) {
     case n.DOCUMENT_NODE:
@@ -277,7 +278,7 @@ function serializeNode(
         }
       }
       // canvas image data
-      if (tagName === 'canvas') {
+      if (tagName === 'canvas' && recordCanvas) {
         attributes.rr_dataURL = (n as HTMLCanvasElement).toDataURL();
       }
       // media elements
@@ -347,6 +348,7 @@ export function serializeNodeWithId(
   skipChild = false,
   inlineStylesheet = true,
   maskInputOptions?: MaskInputOptions,
+  recordCanvas?: boolean,
 ): serializedNodeWithId | null {
   const _serializedNode = serializeNode(
     n,
@@ -354,6 +356,7 @@ export function serializeNodeWithId(
     blockClass,
     inlineStylesheet,
     maskInputOptions,
+    recordCanvas || false,
   );
   if (!_serializedNode) {
     // TODO: dev only
@@ -390,6 +393,7 @@ export function serializeNodeWithId(
         skipChild,
         inlineStylesheet,
         maskInputOptions,
+        recordCanvas,
       );
       if (serializedChildNode) {
         serializedNode.childNodes.push(serializedChildNode);
@@ -404,6 +408,7 @@ function snapshot(
   blockClass: string | RegExp = 'rr-block',
   inlineStylesheet = true,
   maskAllInputsOrOptions: boolean | MaskInputOptions,
+  recordCanvas?: boolean,
 ): [serializedNodeWithId | null, idNodeMap] {
   const idNodeMap: idNodeMap = {};
   const maskInputOptions: MaskInputOptions =
@@ -437,9 +442,27 @@ function snapshot(
       false,
       inlineStylesheet,
       maskInputOptions,
+      recordCanvas,
     ),
     idNodeMap,
   ];
+}
+
+export function visitSnapshot(
+  node: serializedNodeWithId,
+  onVisit: (node: serializedNodeWithId) => unknown,
+) {
+  function walk(current: serializedNodeWithId) {
+    onVisit(current);
+    if (
+      current.type === NodeType.Document ||
+      current.type === NodeType.Element
+    ) {
+      current.childNodes.forEach(walk);
+    }
+  }
+
+  walk(node);
 }
 
 export default snapshot;
