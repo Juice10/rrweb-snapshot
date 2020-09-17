@@ -33,9 +33,9 @@ function getCssRulesString(s: CSSStyleSheet): string | null {
     const rules = s.rules || s.cssRules;
     return rules
       ? Array.from(rules).reduce(
-          (prev, cur) => prev + getCssRuleString(cur),
-          '',
-        )
+        (prev, cur) => prev + getCssRuleString(cur),
+        '',
+      )
       : null;
   } catch (error) {
     return null;
@@ -205,11 +205,11 @@ function serializeNode(
         });
 
         let rulesInaccessible = false;
-        try {
-          (stylesheet as CSSStyleSheet)?.rules && (stylesheet as CSSStyleSheet)?.cssRules
-        } catch {
-          rulesInaccessible = true;
-        }
+        // try {
+        //   (stylesheet as CSSStyleSheet)?.rules && (stylesheet as CSSStyleSheet)?.cssRules
+        // } catch {
+        //   rulesInaccessible = true;
+        // }
 
         if (stylesheet && rulesInaccessible &&
           (n as HTMLLinkElement).getAttribute('crossorigin') === null) {
@@ -264,7 +264,7 @@ function serializeNode(
         ) {
           attributes.value =
             maskInputOptions[attributes.type as keyof MaskInputOptions] ||
-            maskInputOptions[tagName as keyof MaskInputOptions]
+              maskInputOptions[tagName as keyof MaskInputOptions]
               ? '*'.repeat(value.length)
               : value;
         } else if ((n as HTMLInputElement).checked) {
@@ -414,25 +414,25 @@ function snapshot(
   const maskInputOptions: MaskInputOptions =
     maskAllInputsOrOptions === true
       ? {
-          color: true,
-          date: true,
-          'datetime-local': true,
-          email: true,
-          month: true,
-          number: true,
-          range: true,
-          search: true,
-          tel: true,
-          text: true,
-          time: true,
-          url: true,
-          week: true,
-          textarea: true,
-          select: true,
-        }
+        color: true,
+        date: true,
+        'datetime-local': true,
+        email: true,
+        month: true,
+        number: true,
+        range: true,
+        search: true,
+        tel: true,
+        text: true,
+        time: true,
+        url: true,
+        week: true,
+        textarea: true,
+        select: true,
+      }
       : maskAllInputsOrOptions === false
-      ? {}
-      : maskAllInputsOrOptions;
+        ? {}
+        : maskAllInputsOrOptions;
   return [
     serializeNodeWithId(
       n,
